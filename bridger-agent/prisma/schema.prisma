@@ -7,6 +7,27 @@ datasource db {
   url      = "file:./dev.db"
 }
 
-model Greet {
+model Session {
   id Int @id @default(autoincrement())
+  transactions Transaction[]
+}
+
+model Transaction {
+  id Int @id @default(autoincrement())
+  sessionId Int
+  session Session @relation(fields: [sessionId], references: [id])
+  // Model predictions
+  vendor String?
+  account String?
+  unsure Boolean
+  // Transaction info
+  date DateTime
+  // Positive for money in, negative for money out
+  amountCents Int
+  bankDetail String
+  // User set fields
+  correctedVendor String?
+  correctedAccount String?
+  needsInfo Boolean @default(false)
+  validated Boolean @default(false)
 }
