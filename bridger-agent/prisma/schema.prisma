@@ -17,8 +17,8 @@ model Transaction {
   sessionId Int
   session Session @relation(fields: [sessionId], references: [id])
   // Model predictions
-  vendor String?
-  account String?
+  vendor String
+  account String
   unsure Boolean
   // Transaction info
   date DateTime
