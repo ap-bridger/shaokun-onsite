@@ -8,7 +8,7 @@ export const getTransactions = async (sessionId: number) => {
   // Return dummy transactions for the session
   return [
     {
-      txnId: "TXN001",
+      txnId: 1,
       sessionId: sessionId,
       vendor: "Amazon",
       account: "Office Supplies",
@@ -22,7 +22,7 @@ export const getTransactions = async (sessionId: number) => {
       bankDetail: "AMAZON.COM*123456789",
     },
     {
-      txnId: "TXN002",
+      txnId: 2,
       sessionId: sessionId,
       vendor: "Starbucks",
       account: "Meals & Entertainment",
@@ -39,7 +39,7 @@ export const getTransactions = async (sessionId: number) => {
 };
 
 export const updateTransaction = async (
-  txnId: string,
+  txnId: number,
   updates: {
     correctedVendor?: string;
     correctedAccount?: string;
@@ -63,25 +63,7 @@ export const updateTransaction = async (
   };
 };
 
-export const requestClientInfo = async (txnId: string) => {
-  // Just return a dummy transaction with needsInfo set to true
-  return {
-    txnId: txnId,
-    sessionId: 1,
-    vendor: "Starbucks",
-    account: "Meals & Entertainment",
-    unsure: true,
-    validated: true,
-    correctedVendor: null,
-    correctedAccount: null,
-    needsInfo: true,
-    date: new Date().toISOString(),
-    amountCents: -650,
-    bankDetail: "STARBUCKS STORE #1234",
-  };
-};
-
-export const validateTransaction = async (txnId: string) => {
+export const validateTransaction = async (txnId: number) => {
   return {
     txnId: txnId,
     sessionId: 1,

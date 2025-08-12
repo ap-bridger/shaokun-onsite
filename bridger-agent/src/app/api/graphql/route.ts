@@ -3,7 +3,6 @@ import {
   startSession,
   getTransactions,
   updateTransaction,
-  requestClientInfo,
   validateTransaction,
   endSession,
 } from "@/server/modules/transactions/api";
@@ -20,13 +19,12 @@ const { handleRequest } = createYoga({
       type Mutation {
         startSession: Session!
         updateTransaction(
-          txnId: String!
+          txnId: Int!
           correctedVendor: String
           correctedAccount: String
           needsInfo: Boolean
         ): Transaction!
-        requestClientInfo(txnId: String!): Transaction!
-        validateTransaction(txnId: String!): Transaction!
+        validateTransaction(txnId: Int!): Transaction!
         endSession(sessionId: Int!): Boolean!
       }
 
@@ -35,7 +33,7 @@ const { handleRequest } = createYoga({
       }
 
       type Transaction {
-        txnId: String!
+        txnId: Int!
         sessionId: Int!
         vendor: String!
         account: String!
@@ -70,7 +68,7 @@ const { handleRequest } = createYoga({
         updateTransaction: async (
           _: any,
           args: {
-            txnId: string;
+            txnId: number;
             correctedVendor?: string;
             correctedAccount?: string;
             needsInfo?: boolean;
@@ -82,10 +80,7 @@ const { handleRequest } = createYoga({
             needsInfo: args.needsInfo,
           });
         },
-        requestClientInfo: async (_: any, args: { txnId: string }) => {
-          return await requestClientInfo(args.txnId);
-        },
-        validateTransaction: async (_: any, args: { txnId: string }) => {
+        validateTransaction: async (_: any, args: { txnId: number }) => {
           return await validateTransaction(args.txnId);
         },
         endSession: async (_: any, args: { sessionId: number }) => {
