@@ -38,6 +38,8 @@ export const updateTransaction = async (
 ) => {
   const updated = await prisma.transaction.update({
     where: { id: txnId },
+    // Prisma only updates fields that are provided (not undefined)
+    // To clear a field, explicitly pass null
     data: {
       correctedVendor: updates.correctedVendor,
       correctedAccount: updates.correctedAccount,
