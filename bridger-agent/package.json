@@ -9,7 +9,8 @@
     "lint": "next lint",
     "prisma:migrate:dev": "prisma migrate dev",
     "prisma:studio": "prisma studio",
-    "prisma:format": "prisma format"
+    "prisma:format": "prisma format",
+    "load-db": "tsx src/scripts/load_transactions.ts"
   },
   "dependencies": {
     "@apollo/client": "^3.11.10",
@@ -17,9 +18,11 @@
     "graphql": "^16.9.0",
     "graphql-yoga": "^5.10.2",
     "next": "15.0.3",
+    "papaparse": "^5.5.3",
     "prisma": "^5.22.0",
     "react": "19.0.0-rc-66855b96-20241106",
-    "react-dom": "19.0.0-rc-66855b96-20241106"
+    "react-dom": "19.0.0-rc-66855b96-20241106",
+    "tsx": "^4.20.4"
   },
   "devDependencies": {
     "@types/node": "^20",
