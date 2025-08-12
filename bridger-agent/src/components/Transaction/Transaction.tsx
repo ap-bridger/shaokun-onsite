@@ -5,13 +5,18 @@ import { Transaction as TransactionType } from "@/types/transaction";
 
 interface Props {
   txn: TransactionType;
-  updateTxn: (txnId: string, vendor: string | null, account: string | null) => void;
+  updateTxn: (
+    txnId: string,
+    vendor: string | null,
+    account: string | null,
+    needInfo: boolean
+  ) => void;
   validateTxn: (txnId: string) => void;
 }
 
 export const Transaction = ({ txn, updateTxn, validateTxn }: Props) => {
   const [isNeedInfoRequested, setIsNeedInfoRequested] = React.useState<boolean>(
-    txn.need_info
+    txn.needInfo
   );
   const [isFixDialogOpen, setIsFixDialogOpen] = React.useState<boolean>(false);
   const [vendorInput, setVendorInput] = React.useState<string>(
@@ -20,6 +25,7 @@ export const Transaction = ({ txn, updateTxn, validateTxn }: Props) => {
   const [accountInput, setAccountInput] = React.useState<string>(
     txn.correctedAccount || txn.account
   );
+  const [needInfoInput, setNeedInfoInput] = React.useState<boolean>(txn.needInfo);
   const onClickValidate = () => {
     validateTxn(txn.id);
   };
@@ -31,7 +37,8 @@ export const Transaction = ({ txn, updateTxn, validateTxn }: Props) => {
   const onSubmitFix = () => {
     const vendorValue = vendorInput.trim() === "" ? null : vendorInput.trim();
     const accountValue = accountInput.trim() === "" ? null : accountInput.trim();
-    updateTxn(txn.id, vendorValue, accountValue);
+    updateTxn(txn.id, vendorValue, accountValue, needInfoInput);
+    setIsNeedInfoRequested(needInfoInput);
     setIsFixDialogOpen(false);
   };
 
@@ -39,6 +46,7 @@ export const Transaction = ({ txn, updateTxn, validateTxn }: Props) => {
     // reset inputs to current values before closing
     setVendorInput(txn.correctedVendor || txn.vendor);
     setAccountInput(txn.correctedAccount || txn.account);
+    setNeedInfoInput(txn.needInfo);
     setIsFixDialogOpen(false);
   };
 
@@ -62,6 +70,7 @@ export const Transaction = ({ txn, updateTxn, validateTxn }: Props) => {
         <input
           type="checkbox"
           checked={isNeedInfoRequested}
+          disabled={true}
           onChange={(e) => setIsNeedInfoRequested(e.target.checked)}
         />
         Need info
@@ -129,6 +138,15 @@ export const Transaction = ({ txn, updateTxn, validateTxn }: Props) => {
                 }}
               />
             </label>
+            <label style={{ display: "flex", alignItems: "center", gap: 8 }}>
+              <input
+                type="checkbox"
+                checked={needInfoInput}
+                onChange={(e) => setNeedInfoInput(e.target.checked)}
+              />
+              <span>Need info</span>
+            </label>
+
             <div style={{ display: "flex", justifyContent: "flex-end", gap: 8 }}>
               <button onClick={onCancelFix} style={{ padding: "6px 10px" }}>
                 Cancel

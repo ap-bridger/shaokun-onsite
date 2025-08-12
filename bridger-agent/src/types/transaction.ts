@@ -22,6 +22,6 @@ export type Transaction = {
   unsure: boolean;
   correctedVendor: string | null;
   correctedAccount: string | null;
-  need_info: boolean;
+  needInfo: boolean;
   validated: boolean;
 };
