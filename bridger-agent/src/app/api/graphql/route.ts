@@ -1,4 +1,11 @@
 import { greetings } from "@/server/modules/greet/api";
+import {
+  startSession,
+  getTransactions,
+  updateTransaction,
+  validateTransaction,
+  endSession,
+} from "@/server/modules/transactions/api";
 import { createSchema, createYoga } from "graphql-yoga";
 
 const { handleRequest } = createYoga({
@@ -6,11 +13,79 @@ const { handleRequest } = createYoga({
     typeDefs: /* GraphQL */ `
       type Query {
         greetings: String
+        getTransactions(sessionId: Int!): [Transaction!]!
+      }
+
+      type Mutation {
+        startSession: Session!
+        updateTransaction(
+          txnId: Int!
+          correctedVendor: String
+          correctedAccount: String
+          needsInfo: Boolean
+        ): Transaction!
+        validateTransaction(txnId: Int!): Transaction!
+        endSession(sessionId: Int!): Boolean!
+      }
+
+      type Session {
+        id: Int!
+      }
+
+      type Transaction {
+        txnId: Int!
+        sessionId: Int!
+        vendor: String!
+        account: String!
+        unsure: Boolean!
+        validated: Boolean!
+        correctedVendor: String
+        correctedAccount: String
+        needsInfo: Boolean!
+        date: String!
+        amountCents: Int!
+        bankDetail: String!
+      }
+
+      input TransactionInput {
+        txnId: String!
+        vendor: String!
+        account: String!
+        unsure: Boolean
       }
     `,
     resolvers: {
       Query: {
         greetings,
+        getTransactions: async (_: any, args: { sessionId: number }) => {
+          return await getTransactions(args.sessionId);
+        },
+      },
+      Mutation: {
+        startSession: async () => {
+          return await startSession();
+        },
+        updateTransaction: async (
+          _: any,
+          args: {
+            txnId: number;
+            correctedVendor?: string;
+            correctedAccount?: string;
+            needsInfo?: boolean;
+          }
+        ) => {
+          return await updateTransaction(args.txnId, {
+            correctedVendor: args.correctedVendor,
+            correctedAccount: args.correctedAccount,
+            needsInfo: args.needsInfo,
+          });
+        },
+        validateTransaction: async (_: any, args: { txnId: number }) => {
+          return await validateTransaction(args.txnId);
+        },
+        endSession: async (_: any, args: { sessionId: number }) => {
+          return await endSession(args.sessionId);
+        },
       },
     },
   }),
