@@ -2,7 +2,7 @@ import Papa from "papaparse";
 import fs from "fs";
 import { prisma } from "@/lib/db";
 
-const CSV_PATH = "/Users/alex/Downloads/sample_transactions.csv";
+const CSV_PATH = `${process.env.HOME}/Downloads/sample_transactions.csv`;
 const SESSION_ID = 1;
 
 async function main() {
