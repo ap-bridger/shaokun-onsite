@@ -23,7 +23,7 @@ const { handleRequest } = createYoga({
           txnId: String!
           correctedVendor: String
           correctedAccount: String
-          needInfo: Boolean
+          needsInfo: Boolean
         ): Transaction!
         requestClientInfo(txnId: String!): Transaction!
         validateTransaction(txnId: String!): Transaction!
@@ -43,7 +43,10 @@ const { handleRequest } = createYoga({
         validated: Boolean!
         correctedVendor: String
         correctedAccount: String
-        needInfo: Boolean!
+        needsInfo: Boolean!
+        date: String!
+        amountCents: Int!
+        bankDetail: String!
       }
 
       input TransactionInput {
@@ -70,13 +73,13 @@ const { handleRequest } = createYoga({
             txnId: string;
             correctedVendor?: string;
             correctedAccount?: string;
-            needInfo?: boolean;
+            needsInfo?: boolean;
           }
         ) => {
           return await updateTransaction(args.txnId, {
             correctedVendor: args.correctedVendor,
             correctedAccount: args.correctedAccount,
-            needInfo: args.needInfo,
+            needsInfo: args.needsInfo,
           });
         },
         requestClientInfo: async (_: any, args: { txnId: string }) => {

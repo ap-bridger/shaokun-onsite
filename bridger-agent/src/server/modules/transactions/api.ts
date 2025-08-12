@@ -16,7 +16,10 @@ export const getTransactions = async (sessionId: number) => {
       validated: false,
       correctedVendor: null,
       correctedAccount: null,
-      needInfo: false,
+      needsInfo: false,
+      date: new Date().toISOString(),
+      amountCents: -5999,
+      bankDetail: "AMAZON.COM*123456789",
     },
     {
       txnId: "TXN002",
@@ -27,7 +30,10 @@ export const getTransactions = async (sessionId: number) => {
       validated: false,
       correctedVendor: null,
       correctedAccount: null,
-      needInfo: false,
+      needsInfo: false,
+      date: new Date().toISOString(),
+      amountCents: -650,
+      bankDetail: "STARBUCKS STORE #1234",
     },
   ];
 };
@@ -37,7 +43,7 @@ export const updateTransaction = async (
   updates: {
     correctedVendor?: string;
     correctedAccount?: string;
-    needInfo?: boolean;
+    needsInfo?: boolean;
   }
 ) => {
   // Just return a dummy updated transaction
@@ -50,12 +56,15 @@ export const updateTransaction = async (
     validated: true,
     correctedVendor: updates.correctedVendor || null,
     correctedAccount: updates.correctedAccount || null,
-    needInfo: updates.needInfo || false,
+    needsInfo: updates.needsInfo || false,
+    date: new Date().toISOString(),
+    amountCents: -5999,
+    bankDetail: "AMAZON.COM*123456789",
   };
 };
 
 export const requestClientInfo = async (txnId: string) => {
-  // Just return a dummy transaction with needInfo set to true
+  // Just return a dummy transaction with needsInfo set to true
   return {
     txnId: txnId,
     sessionId: 1,
@@ -65,7 +74,10 @@ export const requestClientInfo = async (txnId: string) => {
     validated: true,
     correctedVendor: null,
     correctedAccount: null,
-    needInfo: true,
+    needsInfo: true,
+    date: new Date().toISOString(),
+    amountCents: -650,
+    bankDetail: "STARBUCKS STORE #1234",
   };
 };
 
@@ -79,7 +91,10 @@ export const validateTransaction = async (txnId: string) => {
     validated: true,
     correctedVendor: null,
     correctedAccount: null,
-    needInfo: true,
+    needsInfo: false,
+    date: new Date().toISOString(),
+    amountCents: -650,
+    bankDetail: "STARBUCKS STORE #1234",
   };
 };
 
