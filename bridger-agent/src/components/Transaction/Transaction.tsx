@@ -15,7 +15,7 @@ interface Props {
 
 export const Transaction = ({ txn, updateTxn, validateTxn }: Props) => {
   const [isNeedInfoRequested, setIsNeedInfoRequested] = React.useState<boolean>(
-    txn.need_info
+    txn.needsInfo
   );
   const [isFixDialogOpen, setIsFixDialogOpen] = React.useState<boolean>(false);
   const [vendorInput, setVendorInput] = React.useState<string>(
@@ -25,7 +25,7 @@ export const Transaction = ({ txn, updateTxn, validateTxn }: Props) => {
     txn.correctedAccount || txn.account
   );
   const onClickValidate = () => {
-    validateTxn(txn.id);
+    validateTxn(txn.txnId);
   };
 
   const onClickFix = () => {
@@ -36,7 +36,7 @@ export const Transaction = ({ txn, updateTxn, validateTxn }: Props) => {
     const vendorValue = vendorInput.trim() === "" ? null : vendorInput.trim();
     const accountValue =
       accountInput.trim() === "" ? null : accountInput.trim();
-    updateTxn(txn.id, vendorValue, accountValue);
+    updateTxn(txn.txnId, vendorValue, accountValue);
     setIsFixDialogOpen(false);
   };
 

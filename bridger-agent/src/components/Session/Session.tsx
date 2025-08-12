@@ -12,7 +12,7 @@ export const Session = () => {
       sessionId: 1, // Hard code for now
     },
   });
-  const txns = data?.getTransactions || []; // TODO: Correct spinner + loading
+  const txns: TransactionType[] = data?.getTransactions || []; // TODO: Correct spinner + loading
 
   const updateTxn = useCallback(
     (txnId: string, vendor: string | null, account: string | null) => {
@@ -27,7 +27,7 @@ export const Session = () => {
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-      {txns.map((txn: any) => (
+      {txns.map((txn: TransactionType) => (
         <Transaction
           key={txn.txnId}
           txn={txn}

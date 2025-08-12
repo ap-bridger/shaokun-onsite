@@ -13,7 +13,7 @@ need_info bool DEFAULT 0
 validated bool default 0
 */
 export type Transaction = {
-  id: string;
+  txnId: string;
   date: string; // Hacky because GQL doesn't have a native date type
   amountCents: number;
   bankDetail: string;
@@ -22,6 +22,6 @@ export type Transaction = {
   unsure: boolean;
   correctedVendor: string | null;
   correctedAccount: string | null;
-  need_info: boolean;
+  needsInfo: boolean;
   validated: boolean;
 };
