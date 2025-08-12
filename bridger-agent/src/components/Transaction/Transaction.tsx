@@ -5,13 +5,17 @@ import { Transaction as TransactionType } from "@/types/transaction";
 
 interface Props {
   txn: TransactionType;
-  updateTxn: (txnId: string, vendor: string | null, account: string | null) => void;
+  updateTxn: (
+    txnId: string,
+    vendor: string | null,
+    account: string | null
+  ) => void;
   validateTxn: (txnId: string) => void;
 }
 
 export const Transaction = ({ txn, updateTxn, validateTxn }: Props) => {
   const [isNeedInfoRequested, setIsNeedInfoRequested] = React.useState<boolean>(
-    txn.need_info
+    txn.needsInfo
   );
   const [isFixDialogOpen, setIsFixDialogOpen] = React.useState<boolean>(false);
   const [vendorInput, setVendorInput] = React.useState<string>(
@@ -21,7 +25,7 @@ export const Transaction = ({ txn, updateTxn, validateTxn }: Props) => {
     txn.correctedAccount || txn.account
   );
   const onClickValidate = () => {
-    validateTxn(txn.id);
+    validateTxn(txn.txnId);
   };
 
   const onClickFix = () => {
@@ -30,8 +34,9 @@ export const Transaction = ({ txn, updateTxn, validateTxn }: Props) => {
 
   const onSubmitFix = () => {
     const vendorValue = vendorInput.trim() === "" ? null : vendorInput.trim();
-    const accountValue = accountInput.trim() === "" ? null : accountInput.trim();
-    updateTxn(txn.id, vendorValue, accountValue);
+    const accountValue =
+      accountInput.trim() === "" ? null : accountInput.trim();
+    updateTxn(txn.txnId, vendorValue, accountValue);
     setIsFixDialogOpen(false);
   };
 
@@ -56,7 +61,7 @@ export const Transaction = ({ txn, updateTxn, validateTxn }: Props) => {
       <div>{txn.correctedVendor || txn.vendor}</div>
       <div>{txn.correctedAccount || txn.account}</div>
       <div>{txn.amountCents}</div>
-      <div>{txn.date.toLocaleDateString()}</div>
+      <div>{txn.date}</div>
       <div>{txn.unsure}</div>
       <label style={{ display: "flex", alignItems: "center", gap: "6px" }}>
         <input
@@ -102,7 +107,9 @@ export const Transaction = ({ txn, updateTxn, validateTxn }: Props) => {
               boxShadow: "0 10px 25px rgba(0,0,0,0.15)",
             }}
           >
-            <div style={{ fontWeight: 600, fontSize: "16px" }}>Edit transaction</div>
+            <div style={{ fontWeight: 600, fontSize: "16px" }}>
+              Edit transaction
+            </div>
             <label style={{ display: "flex", flexDirection: "column", gap: 6 }}>
               <span>Vendor</span>
               <input
@@ -129,7 +136,9 @@ export const Transaction = ({ txn, updateTxn, validateTxn }: Props) => {
                 }}
               />
             </label>
-            <div style={{ display: "flex", justifyContent: "flex-end", gap: 8 }}>
+            <div
+              style={{ display: "flex", justifyContent: "flex-end", gap: 8 }}
+            >
               <button onClick={onCancelFix} style={{ padding: "6px 10px" }}>
                 Cancel
               </button>
