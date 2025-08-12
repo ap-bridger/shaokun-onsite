@@ -14,7 +14,7 @@ validated bool default 0
 */
 export type Transaction = {
   id: string;
-  date: Date;
+  date: string; // Hacky because GQL doesn't have a native date type
   amountCents: number;
   bankDetail: string;
   vendor: string;
