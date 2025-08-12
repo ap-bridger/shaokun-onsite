@@ -2,10 +2,30 @@
 
 import { Transaction } from "@/components/Transaction/Transaction";
 import { Transaction as TransactionType } from "@/types/transaction";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 export const Session = () => {
   const [txns, setTxns] = useState<TransactionType[]>([]);
+
+  const updateTxn = useCallback(
+    (txnId: string, vendor: string | null, account: string | null) => {
+      setTxns((prevTxns) =>
+        prevTxns.map((txn) =>
+          txn.id === txnId
+            ? { ...txn, correctedVendor: vendor, correctedAccount: account }
+            : txn
+        )
+      );
+    },
+    []
+  );
+
+  const validateTxn = useCallback((txnId: string) => {
+    setTxns((prevTxns) =>
+      prevTxns.map((txn) => (txn.id === txnId ? { ...txn, validated: true } : txn))
+    );
+    alert(`validateTxn: ${txnId}`);
+  }, []);
 
   useEffect(() => {
     // TODO load txns from the server
@@ -29,7 +49,12 @@ export const Session = () => {
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
       {txns.map((txn) => (
-        <Transaction key={txn.id} txn={txn} />
+        <Transaction
+          key={txn.id}
+          txn={txn}
+          updateTxn={updateTxn}
+          validateTxn={validateTxn}
+        />
       ))}
     </div>
   );
